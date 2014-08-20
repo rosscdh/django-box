@@ -10,7 +10,9 @@ class BoxWebhookService(object):
         """
         Method to process the callback data
         """
+        logger.debug('Recieved webhook data from Box: %s' % data)
         # issue the signal
         box_event.send(sender=self, **data)
+        logger.debug('Issued box_event signal')
 
         return data
