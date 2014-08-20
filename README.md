@@ -1,7 +1,7 @@
 django-box
-====================
+==========
 
-A Django app for integrating with box
+A Django app for integrating with box webhook callbacks
 
 
 Installation
