@@ -9,21 +9,8 @@ Installation
 
 1. python setup.py
 2. pip install requirements.txt
-3. add box to INSTALLED_APPS
-4. add url to sss endpoint
-5. register url with snowsheostamp as webhook callback
-
-Settings
---------
-
-
-__Required__
-
-
-```
-SNOWSHOESTAMP_KEY : the oauth key for your app
-SNOWSHOESTAMP_SECRET : the oauth secret for your app
-```
+3. add dj_box to INSTALLED_APPS
+4. add dj_box.urls to your apps urls.py
 
 
 __Example Implementation__
@@ -33,7 +20,7 @@ __Example Implementation__
 3. and that is it, you can now hook up the signal listener and get a signal event whenever a webhook event happens
 
 ```
-url(r'^sss/', include('box.urls', namespace='box')),
+url(r'^box/', include('dj_box.urls', namespace='box')),
 ```
 
 __Or__
@@ -44,23 +31,19 @@ You can write a custom view, by extending our View and doing somethign more spec
 from dj_box.views import BoxView
 
 
-class MyBoxWebhookRecieverView(BoxView):
+class MyCustomBoxWebhookRecieverView(BoxView):
     def post(self, request, *args, **kwargs):
-        print(self.stamp_serial)
-        print(self.stamp_data)
-
         # do something amazing
 
         return self.render_json_response({
             'detail': 'Box Callback recieved',
-            'stamp_data': self.stamp_data
         })
 ```
 
 
 __Please Note__
 
-If you use the BoxView then a signal will be issued when recieving callbacks from dj_box, which you can then listen for and do other amazing things.
+If you use the BoxView then a signal will be issued when recieving callbacks from dj_box, which you can then listen for and do other things.
 
 
 __Signal Example Implementation__
@@ -68,12 +51,11 @@ __Signal Example Implementation__
 
 ```signals.py
 from django.dispatch import receiver
-
 from dj_box.signals import box_event
 
 
 @receiver(box_event)
-def on_box_callback(sender, stamp_serial, **kwargs):
+def on_box_callback(sender, **kwargs):
     # do something amazing with the data in the kwargs dict
     pass
 ```
@@ -81,7 +63,4 @@ def on_box_callback(sender, stamp_serial, **kwargs):
 
 __TODO__
 
-1. ~~tests~~
-2. ~~more descriptive readme.md~~
-3. improve setup.py to install from requirements
-4. ~~fix broken python_sdk install cant install from pip lacks setup.py~~
+1. improve setup.py to install from requirements
