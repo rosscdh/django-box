@@ -20,7 +20,7 @@ __Example Implementation__
 3. and that is it, you can now hook up the signal listener and get a signal event whenever a webhook event happens
 
 ```
-url(r'^box/', include('dj_box.urls', namespace='box')),
+url(r'^box/', include('dj_box.urls', namespace='dj_box')),
 ```
 
 __Or__
