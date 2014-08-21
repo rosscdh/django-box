@@ -19,7 +19,7 @@ class BoxViewTest(TestCase):
 
     def setUp(self):
         self.client = Client()
-        self.url = reverse_lazy('box_webhook_callback')
+        self.url = reverse_lazy('dj_box:box_webhook_callback')
         self.valid_webhook_data = WEBHOOK_POSTED_DATA
 
     def test_invalid_methods(self):

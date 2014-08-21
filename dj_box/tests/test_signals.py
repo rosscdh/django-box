@@ -18,11 +18,11 @@ EXPECTED_SIGNAL_KEYS = ['signal', u'data', 'sender']
 
 
 @receiver(box_event)
-def test_snowshoe_webhook_event_recieved_and_signal_sent(**kwargs):
+def test_box_webhook_event_recieved_and_signal_sent(**kwargs):
     """
     Test signal listner to handle the signal fired event
     """
-    cache.set('test_snowshoe_webhook_event_recieved_and_signal_sent', kwargs.keys())
+    cache.set('test_box_webhook_event_recieved_and_signal_sent', kwargs.keys())
 
 
 class BoxSignalTest(TestCase):
@@ -31,7 +31,7 @@ class BoxSignalTest(TestCase):
     """
     def setUp(self):
         self.client = Client()
-        self.url = reverse_lazy('box_webhook_callback')
+        self.url = reverse_lazy('dj_box:box_webhook_callback')
         self.valid_webhook_data = WEBHOOK_POSTED_DATA
 
     @httpretty.activate
@@ -43,4 +43,4 @@ class BoxSignalTest(TestCase):
         resp = self.client.post(self.url, self.valid_webhook_data)
         self.assertEqual(resp.status_code, 200)
 
-        self.assertEqual(cache.get('test_snowshoe_webhook_event_recieved_and_signal_sent'), EXPECTED_SIGNAL_KEYS)
+        self.assertEqual(cache.get('test_box_webhook_event_recieved_and_signal_sent'), EXPECTED_SIGNAL_KEYS)
